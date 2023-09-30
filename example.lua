@@ -1,9 +1,9 @@
+local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 local Bracket = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucasr125/bracket-lib-v3.3/main/bracketv3.3.lua"))()
 Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}) -- Duration can be nil for "x" to pop up
-Bracket:Notification2({Title = "Text",Duration = 10})
 
 -- see source code for more hidden things i forgot to add in this example
-local Window = Bracket:Window({Name = "Window",Enabled = true,Color = Color3.new(1,0.5,0.25),Size = UDim2.new(0,496,0,496),Position = UDim2.new(0.5,-248,0.5,-248)}) do
+local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new(1,0.5,0.25),Size = UDim2.new(0,496,0,496),Position = UDim2.new(0.5,-248,0.5,-248)}) do
 	--Window.Name = "Name"
 	--Window.Size = UDim2.new(0,496,0,496)
 	--Window.Position = UDim2.new(0.5,-248,0.5,-248)
