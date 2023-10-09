@@ -3,7 +3,7 @@ local Bracket = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucas
 Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}) -- Duration can be nil for "x" to pop up
 
 -- see source code for more hidden things i forgot to add in this example
-local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new(1,0.5,0.25),Size = UDim2.new(0,496,0,496),Position = UDim2.new(0.5,-248,0.5,-248)}) do
+local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new(1,0.5,0.25),Size = UDim2.new(0,296,0,296),Position = UDim2.new(0.5,-248,0.5,-248)}) do
 	--Window.Name = "Name"
 	--Window.Size = UDim2.new(0,496,0,496)
 	--Window.Position = UDim2.new(0.5,-248,0.5,-248)
@@ -30,7 +30,7 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 
 	-- Watermark draggable
 	local Watermark = Window:Watermark({
-		Title = "Bracket V3.2 | Example",
+		Title = "Bracket V3.3 | Example",
 		Flag = "UI/Watermark/Position",
 		Enabled = true,
 	})
