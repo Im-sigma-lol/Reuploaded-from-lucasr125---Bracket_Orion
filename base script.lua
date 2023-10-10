@@ -31,7 +31,7 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 					if #servers > 0 then
 						game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game.Players.LocalPlayer)
 					else
-						return notify("Serverhop", "Couldn't find a server.")
+						return Bracket:Notification({Title = "Error",Description = "Couldn't find a server!",Duration = 10})
 					end
 				end
 			end})
