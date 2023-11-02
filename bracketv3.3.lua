@@ -218,7 +218,8 @@ local function ConfigsToList(FolderName)
 	return Configs
 end
 
-function Assets:Screen() local ScreenAsset = GetAsset("Screen/Bracket")
+function Assets:Screen()
+	local ScreenAsset = GetAsset("Screen/Bracket")
 	if not IsLocal then sethiddenproperty(ScreenAsset,"OnTopOfCoreBlur",true) end
 	ScreenAsset.Name = "Bracket " .. game:GetService("HttpService"):GenerateGUID(false)
 	ScreenAsset.Parent = IsLocal and LocalPlayer:FindFirstChildOfClass("PlayerGui") or CoreGui
@@ -356,12 +357,73 @@ function Assets:Window(ScreenAsset,Window)
 
 		Window.Elements[#Window.Elements + 1] = Watermark
 		Window.Watermark = Watermark
+		return Watermark
+	end
+	function Window:KeybindList(KeybindList)
+		KeybindList = GetType(KeybindList,{},"table",true)
+		KeybindList.Enabled = GetType(KeybindList.Enabled,false,"boolean")
+		--KeybindList.Title = GetType(KeybindList.Title,"","string")
+		
+		KeybindList.Position = GetType(KeybindList.Position,UDim2.new(0,10,0.5,-123),"UDim2")
+		KeybindList.Size = GetType(KeybindList.Size,UDim2.new(0,121,0,246),"UDim2")
+		KeybindList.List = ScreenAsset.KeybindList.List
+
+		ScreenAsset.KeybindList.Visible = KeybindList.Enabled
+		--ScreenAsset.KeybindList.Title.Text = KeybindList.Title
+		
+		MakeDraggable(ScreenAsset.KeybindList.Drag,ScreenAsset.KeybindList,function(Position)
+			KeybindList.Position = Position
+		end)
+		MakeResizeable(ScreenAsset.KeybindList.Resize,ScreenAsset.KeybindList,Vector2.new(121,246),function(Size)
+			KeybindList.Size = Size
+		end)
+		
+		--[[KeybindList:GetPropertyChangedSignal("Title"):Connect(function(Title)
+			ScreenAsset.KeybindList.Title.Text = Title
+		end)]]
+		KeybindList:GetPropertyChangedSignal("Enabled"):Connect(function(Enabled)
+			ScreenAsset.KeybindList.Visible = Enabled
+		end)
+		KeybindList:GetPropertyChangedSignal("Position"):Connect(function(Position)
+			ScreenAsset.KeybindList.Position = Position
+		end)
+		KeybindList:GetPropertyChangedSignal("Size"):Connect(function(Size)
+			ScreenAsset.KeybindList.Size = Size
+		end)
+		
+		WindowAsset.Background.Changed:Connect(function(Property)
+			if Property == "Image" then
+				ScreenAsset.KeybindList.Background.Image = WindowAsset.Background.Image
+			elseif Property == "ImageColor3" then
+				ScreenAsset.KeybindList.Background.ImageColor3 = WindowAsset.Background.ImageColor3
+			elseif Property == "ImageTransparency" then
+				ScreenAsset.KeybindList.Background.ImageTransparency = WindowAsset.Background.ImageTransparency
+			elseif Property == "TileSize" then
+				ScreenAsset.KeybindList.Background.TileSize = WindowAsset.Background.TileSize
+			end
+		end)
+		
+		for Index, Element in pairs(Window.Elements) do
+			if type(Element.WaitingForBind) == "boolean" and not Element.IgnoreList then
+				Element.ListMimic = {}
+				Element.ListMimic.Asset = GetAsset("KeybindList/KeybindMimic")
+				Element.ListMimic.Asset.Title.Text = Element.Name or Element.Toggle.Name
+				Element.ListMimic.Asset.Parent = ScreenAsset.KeybindList.List
+
+				Element.ListMimic.ColorConfig = {false,"BackgroundColor3"}
+				Window.Colorable[Element.ListMimic.Asset.Tick] = Element.ListMimic.ColorConfig
+			end
+		end
+		
+		Window.Elements[#Window.Elements + 1] = KeybindList
+		Window.KeybindList = KeybindList
+		return KeybindList
 	end
 
 	function Window:SaveConfig(FolderName,Name)
 		local Config = {}
 		for Index,Element in pairs(Window.Elements) do
-			if not Element.IgnoreFlag then
+			if Element.Flag and not Element.IgnoreFlag then
 				Config[Element.Flag] = Window.Flags[Element.Flag]
 			end
 		end
@@ -810,7 +872,7 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 	KeybindAsset.Parent = Parent
 	KeybindAsset.Title.Text = Keybind.Name
 	KeybindAsset.Value.Text = "[ " .. Keybind.Value .. " ]"
-
+	
 	KeybindAsset.MouseButton1Click:Connect(function()
 		KeybindAsset.Value.Text = "[ ... ]"
 		Keybind.WaitingForBind = true
@@ -822,6 +884,18 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 		KeybindAsset.Value.Size = UDim2.new(0,KeybindAsset.Value.TextBounds.X,1,0)
 		KeybindAsset.Title.Size = UDim2.new(1,-KeybindAsset.Value.Size.X.Offset,1,0)
 	end)
+	
+	if type(Window.KeybindList) == "table" and not Keybind.IgnoreList then
+		Keybind.ListMimic = {}
+		Keybind.ListMimic.Asset = GetAsset("KeybindList/KeybindMimic")
+		Keybind.ListMimic.Asset.Title.Text = Keybind.Name
+		Keybind.ListMimic.Asset.Visible = Keybind.Value ~= "NONE"
+		Keybind.ListMimic.Asset.Parent = Window.KeybindList.List
+		
+
+		Keybind.ListMimic.ColorConfig = {false,"BackgroundColor3"}
+		Window.Colorable[Keybind.ListMimic.Asset.Tick] = Keybind.ListMimic.ColorConfig
+	end
 
 	UserInputService.InputBegan:Connect(function(Input)
 		local Key = Input.KeyCode.Name
@@ -830,6 +904,10 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 		elseif Input.UserInputType.Name == "Keyboard" then
 			if Key == Keybind.Value then
 				Keybind.Toggle = not Keybind.Toggle
+				if Keybind.ListMimic then
+					Keybind.ListMimic.ColorConfig[1] = true
+					Keybind.ListMimic.Asset.Tick.BackgroundColor3 = Window.Color
+				end
 				Keybind.Callback(Keybind.Value,true,Keybind.Toggle)
 			end
 		end
@@ -842,6 +920,10 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 				or Key == "MouseButton3" then
 				if Key == Keybind.Value then
 					Keybind.Toggle = not Keybind.Toggle
+					if Keybind.ListMimic then
+						Keybind.ListMimic.ColorConfig[1] = true
+						Keybind.ListMimic.Asset.Tick.BackgroundColor3 = Window.Color
+					end
 					Keybind.Callback(Keybind.Value,true,Keybind.Toggle)
 				end
 			end
@@ -851,6 +933,10 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 		local Key = Input.KeyCode.Name
 		if Input.UserInputType.Name == "Keyboard" then
 			if Key == Keybind.Value then
+				if Keybind.ListMimic then
+					Keybind.ListMimic.ColorConfig[1] = false
+					Keybind.ListMimic.Asset.Tick.BackgroundColor3 = Color3.fromRGB(60,60,60)
+				end
 				Keybind.Callback(Keybind.Value,false,Keybind.Toggle)
 			end
 		end
@@ -859,6 +945,10 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 				or Key == "MouseButton2"
 				or Key == "MouseButton3" then
 				if Key == Keybind.Value then
+					if Keybind.ListMimic then
+						Keybind.ListMimic.ColorConfig[1] = false
+						Keybind.ListMimic.Asset.Tick.BackgroundColor3 = Color3.fromRGB(60,60,60)
+					end
 					Keybind.Callback(Keybind.Value,false,Keybind.Toggle)
 				end
 			end
@@ -878,7 +968,12 @@ function Assets:Keybind(Parent,ScreenAsset,Window,Keybind)
 				Value = "NONE"
 			end
 		end
+		
 		KeybindAsset.Value.Text = "[ " .. tostring(Value) .. " ]"
+		if Keybind.ListMimic then
+			Keybind.ListMimic.Asset.Visible = Value ~= "NONE"
+			Keybind.ListMimic.Asset.Layout.TKeybind.Text = "[ " .. tostring(Value) .. " ]"
+		end
 
 		Keybind.WaitingForBind = false
 		Window.Flags[Keybind.Flag] = Value
@@ -892,6 +987,7 @@ end
 function Assets:ToggleKeybind(Parent,ScreenAsset,Window,Keybind,Toggle)
 	local KeybindAsset = GetAsset("Keybind/TKeybind")
 	Keybind.WaitingForBind = false
+	Keybind.Toggle = Toggle
 
 	KeybindAsset.Parent = Parent
 	KeybindAsset.Text = "[ " .. Keybind.Value .. " ]"
@@ -903,6 +999,17 @@ function Assets:ToggleKeybind(Parent,ScreenAsset,Window,Keybind,Toggle)
 	KeybindAsset:GetPropertyChangedSignal("TextBounds"):Connect(function()
 		KeybindAsset.Size = UDim2.new(0,KeybindAsset.TextBounds.X,1,0)
 	end)
+	
+	if type(Window.KeybindList) == "table" and not Keybind.IgnoreList then
+		Keybind.ListMimic = {}
+		Keybind.ListMimic.Asset = GetAsset("KeybindList/KeybindMimic")
+		Keybind.ListMimic.Asset.Title.Text = Toggle.Name
+		Keybind.ListMimic.Asset.Visible = Keybind.Value ~= "NONE"
+		Keybind.ListMimic.Asset.Parent = Window.KeybindList.List
+
+		Keybind.ListMimic.ColorConfig = {false,"BackgroundColor3"}
+		Window.Colorable[Keybind.ListMimic.Asset.Tick] = Keybind.ListMimic.ColorConfig
+	end
 
 	UserInputService.InputBegan:Connect(function(Input)
 		local Key = Input.KeyCode.Name
@@ -945,7 +1052,15 @@ function Assets:ToggleKeybind(Parent,ScreenAsset,Window,Keybind,Toggle)
 			end
 		end
 	end)
-
+	
+	Toggle:GetPropertyChangedSignal("Value"):Connect(function(Value)
+		if Keybind.ListMimic then
+			Keybind.ListMimic.ColorConfig[1] = Value
+			Keybind.ListMimic.Asset.Tick.BackgroundColor3 = Value
+			and Window.Color or Color3.fromRGB(60,60,60)
+		end
+	end)
+	
 	Keybind:GetPropertyChangedSignal("Value"):Connect(function(Value,OldValue)
 		if table.find(Keybind.Blacklist,Value) then
 			if Keybind.DoNotClear then
@@ -956,7 +1071,12 @@ function Assets:ToggleKeybind(Parent,ScreenAsset,Window,Keybind,Toggle)
 				Value = "NONE"
 			end
 		end
+
 		KeybindAsset.Text = "[ " .. tostring(Value) .. " ]"
+		if Keybind.ListMimic then
+			Keybind.ListMimic.Asset.Visible = Value ~= "NONE"
+			Keybind.ListMimic.Asset.Layout.TKeybind.Text = "[ " .. tostring(Value) .. " ]"
+		end
 
 		Keybind.WaitingForBind = false
 		Window.Flags[Keybind.Flag] = Value
@@ -1846,6 +1966,7 @@ function Bracket:Window(Window)
 	return Window
 end
 
+-- NDHandle = NotificationDescriptionHandle
 function Bracket:Notification(Notification)
 	Notification = GetType(Notification,{},"table")
 	Notification.Title = GetType(Notification.Title,"Title","string")
@@ -1884,6 +2005,7 @@ function Bracket:Notification(Notification)
 	end
 end
 
+-- NLHandle = NotificationLineHandle
 function Bracket:Notification2(Notification)
 	Notification = GetType(Notification,{},"table")
 	Notification.Title = GetType(Notification.Title,"Title","string")
