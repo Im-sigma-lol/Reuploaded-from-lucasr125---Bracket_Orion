@@ -4,12 +4,12 @@ This documentation is for the Bracket Library.
 ## Booting the library
 ```lua
 local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-local Bracket = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucasr125/bracket-lib-v3.3/main/bracketv3.3.lua"))()
+local Bracket = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucasr125/bracket-lib-v3.3/main/bracketv3.3.lua"))();
 ```
 
 ## Creating a notification
 ```lua
-Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}) -- Duration can be nil for "x" to pop up
+Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}); -- Duration can be nil for "x" to pop up
 ```
 
 ## Creating a window
@@ -40,26 +40,39 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 	--Window.Background.ImageColor3 = Color3.new(0,0,0)
 	--Window.Background.Image = "rbxassetid://5553946656"
 ```
+
+## Creating a watermark
+```lua
 	-- Watermark draggable
-	local Watermark = Window:Watermark({
-		Title = "Bracket V3.3 | Example",
-		Flag = "UI/Watermark/Position",
-		Enabled = true,
-	})
+	local Watermark = Window:Watermark({Title = "Bracket V3.3 | Example",Flag = "UI/Watermark/Position",Enabled = true,});
+
 	--Watermark.Enabled = true
 	--Watermark.Title = "Text"
 	--Watermark.Value = {0,0,0,0} -- Position, UDim2 but table
+```
 
+## Creating a tab
+```lua
 	local Tab = Window:Tab({Name = "Tab"}) do
+
 		--Side might be "Left", "Right" or nil for auto side choose
 		--Tab:AddConfigSection("FolderName","Side")
 		--Tab.Name = "Name"
+```
 
-		local Divider = Tab:Divider({Text = "Divider",Side = "Left"})
+## Creating a divider
+```lua
+		local Divider = Tab:Divider({Text = "Divider",Side = "Left"});
+
 		--Divider.Text = "Text"
+```
 
-		local Label = Tab:Label({Text = "Label",Side = "Left"})
+## Creating a label
+```lua
+		local Label = Tab:Label({Text = "Label",Side = "Left"});
+
 		--Label.Text = "Text"
+```
 
 		local Button = Tab:Button({Name = "Button",Side = "Left",Callback = function() end})
 		--Button.Name = "Name"
