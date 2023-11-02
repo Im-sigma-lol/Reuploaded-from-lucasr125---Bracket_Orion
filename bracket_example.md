@@ -6,10 +6,16 @@ This documentation is for the Bracket Library.
 local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 local Bracket = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucasr125/bracket-lib-v3.3/main/bracketv3.3.lua"))()
 ```
-Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}) -- Duration can be nil for "x" to pop up
 
--- see source code for more hidden things i forgot to add in this example
+## Creating a notification
+```lua
+Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}) -- Duration can be nil for "x" to pop up
+```
+
+## Creating a window
+```lua
 local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new(1,0.5,0.25),Size = UDim2.new(0,296,0,296),Position = UDim2.new(0.5,-248,0.5,-248)}) do
+
 	--Window.Name = "Name"
 	--Window.Size = UDim2.new(0,496,0,496)
 	--Window.Position = UDim2.new(0.5,-248,0.5,-248)
@@ -33,7 +39,7 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 	--Window.Background.ImageTransparency = 0
 	--Window.Background.ImageColor3 = Color3.new(0,0,0)
 	--Window.Background.Image = "rbxassetid://5553946656"
-
+```
 	-- Watermark draggable
 	local Watermark = Window:Watermark({
 		Title = "Bracket V3.3 | Example",
