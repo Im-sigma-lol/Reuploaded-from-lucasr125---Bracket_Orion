@@ -1,5 +1,11 @@
+# Bracket Library
+This documentation is for the Bracket Library.
+
+## Booting the library
+```lua
 local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 local Bracket = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucasr125/bracket-lib-v3.3/main/bracketv3.3.lua"))()
+```
 Bracket:Notification({Title = "Text",Description = "Text",Duration = 10}) -- Duration can be nil for "x" to pop up
 
 -- see source code for more hidden things i forgot to add in this example
