@@ -74,46 +74,76 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 		--Label.Text = "Text"
 ```
 
-		local Button = Tab:Button({Name = "Button",Side = "Left",Callback = function() end})
+## Creating a button
+```lua
+		local Button = Tab:Button({Name = "Button",Side = "Left",Callback = function() end});
+
 		--Button.Name = "Name"
 		--Button.Callback = function() end
 		--Button:ToolTip("Text")
+```
 
-		local Toggle = Tab:Toggle({Name = "Toggle",Flag = "Toggle",Side = "Left",Value = false,Callback = function(Toggle_Bool) end})
+## Creating a toggle
+```lua
+		local Toggle = Tab:Toggle({Name = "Toggle",Flag = "Toggle",Side = "Left",Value = false,Callback = function(Toggle_Bool) end});
+
 		--Toggle.Name = "Name"
 		--Toggle.Value = true
 		--Toggle.Callback = function(Toggle_Bool) end
 		--Toggle:ToolTip("Text")
+```
 
+## Creating a toggle keybind
+```lua
 		local ToggleKeybind = Toggle:Keybind({Flag = "Toggle/Keybind",Value = "NONE",DoNotClear = false,Mouse = false,Callback = function(Key_String,Pressed_Bool,Toggle_Bool) end,
-		Blacklist = {"W","A","S","D","Slash","Tab","Backspace","Escape","Space","Delete","Unknown","Backquote"}})
+		Blacklist = {"W","A","S","D","Slash","Tab","Backspace","Escape","Space","Delete","Unknown","Backquote"}});
+
 		--ToggleKeybind.Value = "B" -- KeyCode Name
 		--ToggleKeybind.Callback = function(Key_String,Pressed_Bool,Toggle_Bool) end
+```
 
-		local ToggleColorpicker = Toggle:Colorpicker({Flag = "Toggle/Colorpicker",Value = {1,1,1,0,false},Callback = function(HSVAR_Table,Color3) end})
+## Creating a toggle color picker
+```lua
+		local ToggleColorpicker = Toggle:Colorpicker({Flag = "Toggle/Colorpicker",Value = {1,1,1,0,false},Callback = function(HSVAR_Table,Color3) end});
+
 		--ToggleColorpicker.Value = {1,1,1,0,false} -- H,S,V,Alpha,Rainbow (HSVAR)
 		--ToggleColorpicker.Callback = function(HSVAR_Table,Color3) end
+```
 
-		local Slider = Tab:Slider({Name = "Slider",Flag = "Slider",Side = "Left",Min = 0,Max = 100,Value = 50,Precise = 2,Unit = "",Callback = function(Value_Number) end})
+## Creating a slider
+```lua
+		local Slider = Tab:Slider({Name = "Slider",Flag = "Slider",Side = "Left",Min = 0,Max = 100,Value = 50,Precise = 2,Unit = "",Callback = function(Value_Number) end});
+  
 		--Slider.Name = "Name"
 		--Slider.Value = 50
 		--Slider.Callback = function(Value_Number) end
 		--Slider:ToolTip("Text")
+```
 
-		local Textbox = Tab:Textbox({Name = "Textbox",Flag = "Textbox",Side = "Left",Value = "Text",Placeholder = "Placeholder",NumberOnly = false,Callback = function(Text_String,EnterPressed) end})
+## Creating a textbox
+```lua
+		local Textbox = Tab:Textbox({Name = "Textbox",Flag = "Textbox",Side = "Left",Value = "Text",Placeholder = "Placeholder",NumberOnly = false,Callback = function(Text_String,EnterPressed) end});
+
 		--Textbox.Name = "Name"
 		--Textbox.Value = "Text"
 		--Textbox.Placeholder = "Text"
 		--Textbox.Callback = function(Text_String,EnterPressed) end
 		--Textbox:ToolTip("Text")
+```
 
+## Creating a keybind
+```lua
 		local Keybind = Tab:Keybind({Name = "Keybind",Flag = "Keybind",Side = "Left",Value = "NONE",Mouse = false,DoNotClear = false,Callback = function(Key_String,Pressed_Bool,Toggle_Bool) end,
-		Blacklist = {"W","A","S","D","Slash","Tab","Backspace","Escape","Space","Delete","Unknown","Backquote"}})
+		Blacklist = {"W","A","S","D","Slash","Tab","Backspace","Escape","Space","Delete","Unknown","Backquote"}});
+  
 		--Keybind.Name = "Name"
 		--Keybind.Value = "B" -- KeyCode Name
 		--Keybind.Callback = function(Key_String,Pressed_Bool,Toggle_Bool) end
 		--Keybind:ToolTip("Text")
+  ```
 
+## Creating a dropdown
+```lua
 		local Dropdown = Tab:Dropdown({Name = "Dropdown",Flag = "Dropdown",Side = "Left",List = {
 			{
 				Name = "Head",
@@ -131,7 +161,8 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 					print(Selected)
 				end
 			}
-		}})
+		}});
+
 		--Dropdown.Name = "Name"
 		--Dropdown.Value = {"Head"} -- Array of options to enable/select
 		--Dropdown:BulkAdd(List_Table)
@@ -139,14 +170,22 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 		--Dropdown:RemoveOption("OptionName")
 		--Dropdown:Clear()
 		--Dropdown:ToolTip("Text")
+```
 
-		local Colorpicker = Tab:Colorpicker({Name = "Colorpicker",Flag = "Colorpicker",Side = "Left",Value = {1,1,1,0,false},Callback = function(HSVAR_Table,Color3) end})
+## Creating a colorpicker
+```lua
+		local Colorpicker = Tab:Colorpicker({Name = "Colorpicker",Flag = "Colorpicker",Side = "Left",Value = {1,1,1,0,false},Callback = function(HSVAR_Table,Color3) end});
+
 		--Colorpicker.Name = "Name"
 		--Colorpicker.Value = {1,1,1,0,false} -- H,S,V,Alpha,Rainbow (HSVAR)
 		--Colorpicker.Callback = function(HSVAR_Table,Color3) end
 		--Colorpicker:ToolTip("Text")
+```
 
+## Creating a section
+```lua
 		local Section = Tab:Section({Name = "Section",Side = "Right"}) do
+
 			--Section.Name = "Name"
 
 			--Same Elements as in tab but "Side" not used
@@ -164,6 +203,10 @@ local Window = Bracket:Window({Name = GameName,Enabled = true,Color = Color3.new
 			Section:Colorpicker()
 		end
 	end
+```
+
+## Config tab example
+```lua
 	local OptionsTab = Window:Tab({Name = "Options"}) do
 		local MenuSection = OptionsTab:Section({Name = "Menu",Side = "Left"}) do
 			local UIToggle = MenuSection:Toggle({Name = "UI Enabled",Flag = "UI/Enabled",IgnoreFlag = true,
@@ -234,4 +277,4 @@ end
 Window:SetValue("Background/Offset",74)
 Window:AutoLoadConfig("Bracket_Example")
 Window:SetValue("UI/Enabled",Window.Flags["UI/OOL"])
-
+```
