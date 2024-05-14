@@ -5,7 +5,7 @@ local settings = {
   ["autoJumppower"] = false
   ["gravity"] = 196.6
   ["autoGravity"] = false
-  ["hipheight"] = 0
+  ["hipheight"] = 2
   ["autoHipheight"] = false
 }
 
@@ -35,6 +35,7 @@ end});
 local jumppowerSlider = localTab:AddSlider({Name = "Set jumppower",Min = 0,Max = 1000,Default = settings.jumppower,Color = Color3.fromRGB(255,255,255),Increment = 1,ValueName = "jumppower",Callback = function(Value)
   settings.jumppower = Value
   localPlayer.Character.Humanoid.JumpPower = settings.jumppower
+  localPlayer.Character.Humanoid.UseJumpPower = true
 end});
 local jumppowerToggle = localTab:AddToggle({Name = "Auto set jumppower value",Default = false,Callback = function(Value)
 	settings.autoJumppower = Value
@@ -44,13 +45,14 @@ local jumppowerToggle = localTab:AddToggle({Name = "Auto set jumppower value",De
 			local Character = workspace:WaitForChild(LocalPlayer.Name)
 			if Character:FindFirstChild("Humanoid") ~= nil and Character.Humanoid.JumpPower ~= settings.jumppower then
 				Character:FindFirstChild("Humanoid").JumpPower = settings.jumppower
+				localPlayer.Character.Humanoid.UseJumpPower = true
 			end
     end
   end
 end});
 local hipheightSlider = localTab:AddSlider({Name = "Set hipheight",Min = 0,Max = 50,Default = settings.hipheight,Color = Color3.fromRGB(255,255,255),Increment = 1,ValueName = "hipheight",Callback = function(Value)
   settings.hipheight = Value
-  localPlayer.Character.Humanoid.JumpPower = settings.hipheight
+  localPlayer.Character.Humanoid.HipHeight = settings.hipheight
 end});
 local hipheightToggle = localTab:AddToggle({Name = "Auto set hipheight value",Default = false,Callback = function(Value)
 	settings.autoHipheight = Value
