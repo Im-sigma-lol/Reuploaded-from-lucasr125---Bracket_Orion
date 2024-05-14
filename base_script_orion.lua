@@ -1,11 +1,11 @@
 local settings = {
-  ["walkspeed"] = 16
-  ["autoWalkspeed"] = false
-  ["jumppower"] = 50
-  ["autoJumppower"] = false
-  ["gravity"] = 196.6
-  ["autoGravity"] = false
-  ["hipheight"] = 2
+  ["walkspeed"] = 16,
+  ["autoWalkspeed"] = false,
+  ["jumppower"] = 50,
+  ["autoJumppower"] = false,
+  ["gravity"] = 196.6,
+  ["autoGravity"] = false,
+  ["hipheight"] = 2,
   ["autoHipheight"] = false
 }
 
