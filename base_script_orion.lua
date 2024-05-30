@@ -18,20 +18,20 @@ local localTab = Window:MakeTab({Name = "Local",Icon = "rbxassetid://4483345998"
 local SetValueSection = localTab:AddSection({
 	Name = "Set Values Section"
 })
-local walkspeedSlider = SetValueSection:AddSlider({Name = "Set walkspeed",Min = 0,Max = 1000,Default = settings.walkspeed,Color = Color3.fromRGB(255,255,255),Increment = 0.1,ValueName = "walkspeed",Callback = function(Value)
+local walkspeedSlider = SetValueSection:AddSlider({Name = "Set walkspeed",Min = 0,Max = 1000,Default = settings.walkspeed,Color = Color3.fromRGB(255,255,255),Increment = 1,ValueName = "walkspeed",Callback = function(Value)
 	settings.walkspeed = Value
 	localPlayer.Character.Humanoid.WalkSpeed = settings.walkspeed
 end});
-local jumppowerSlider = SetValueSection:AddSlider({Name = "Set jumppower",Min = 0,Max = 1000,Default = settings.jumppower,Color = Color3.fromRGB(255,255,255),Increment = 0.1,ValueName = "jumppower",Callback = function(Value)
+local jumppowerSlider = SetValueSection:AddSlider({Name = "Set jumppower",Min = 0,Max = 1000,Default = settings.jumppower,Color = Color3.fromRGB(255,255,255),Increment = 1,ValueName = "jumppower",Callback = function(Value)
 	settings.jumppower = Value
 	localPlayer.Character.Humanoid.JumpPower = settings.jumppower
 	localPlayer.Character.Humanoid.UseJumpPower = true
 end});
-local hipheightSlider = SetValueSection:AddSlider({Name = "Set hipheight",Min = 0,Max = 50,Default = settings.hipheight,Color = Color3.fromRGB(255,255,255),Increment = 0.1,ValueName = "hipheight",Callback = function(Value)
+local hipheightSlider = SetValueSection:AddSlider({Name = "Set hipheight",Min = 0,Max = 50,Default = settings.hipheight,Color = Color3.fromRGB(255,255,255),Increment = 1,ValueName = "hipheight",Callback = function(Value)
 	settings.hipheight = Value
 	localPlayer.Character.Humanoid.HipHeight = settings.hipheight
 end});
-local gravitySlider = SetValueSection:AddSlider({Name = "Set gravity",Min = 0,Max = 1000,Default = settings.gravity,Color = Color3.fromRGB(255,255,255),Increment = 0.1,ValueName = "gravity",Callback = function(Value)
+local gravitySlider = SetValueSection:AddSlider({Name = "Set gravity",Min = 0,Max = 1000,Default = settings.gravity,Color = Color3.fromRGB(255,255,255),Increment = 1,ValueName = "gravity",Callback = function(Value)
 	settings.gravity = Value
 	game.Workspace.Gravity = settings.gravity
 end});
