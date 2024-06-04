@@ -38,7 +38,7 @@ end});
 local AutoValueSection = localTab:AddSection({
 	Name = "Auto Values Section"
 })
-local walkspeedToggle = AutoValueSection:AddToggle({Name = "Auto walkspeed",Default = false,Callback = function(Value)
+local walkspeedToggle = AutoValueSection:AddToggle({Name = "Auto walkspeed",Default = settings.autowalkspeed,Callback = function(Value)
 	settings.autowalkspeed = Value
 	if settings.autowalkspeed == true then
 		while task.wait(0.1) and settings.autowalkspeed == true do
@@ -46,7 +46,7 @@ local walkspeedToggle = AutoValueSection:AddToggle({Name = "Auto walkspeed",Defa
 		end
 	end
 end});
-local jumppowerToggle = AutoValueSection:AddToggle({Name = "Auto jumppower",Default = false,Callback = function(Value)
+local jumppowerToggle = AutoValueSection:AddToggle({Name = "Auto jumppower",Default = settings.autojumppower,Callback = function(Value)
 	settings.autojumppower = Value
 	if settings.autojumppower == true then
 		while task.wait(0.1) and settings.autojumppower == true do
@@ -55,7 +55,7 @@ local jumppowerToggle = AutoValueSection:AddToggle({Name = "Auto jumppower",Defa
 		end
 	end
 end});
-local hipheightToggle = AutoValueSection:AddToggle({Name = "Auto hipheight",Default = false,Callback = function(Value)
+local hipheightToggle = AutoValueSection:AddToggle({Name = "Auto hipheight",Default = settings.autohipheight,Callback = function(Value)
 	settings.autohipheight = Value
 	if settings.autohipheight == true then
 		while task.wait(0.1) and settings.autohipheight == true do
